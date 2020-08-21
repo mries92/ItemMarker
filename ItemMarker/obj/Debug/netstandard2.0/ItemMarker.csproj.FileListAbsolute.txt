@@ -1,0 +1,16 @@
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\ItemMarker.deps.json
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\ItemMarker.dll
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\ItemMarker.pdb
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\Assembly-CSharp.dll
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\BepInEx.dll
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\UnityEngine.CoreModule.dll
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\UnityEngine.dll
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\obj\Debug\netstandard2.0\ItemMarker.csprojAssemblyReference.cache
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\obj\Debug\netstandard2.0\ItemMarker.AssemblyInfoInputs.cache
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\obj\Debug\netstandard2.0\ItemMarker.AssemblyInfo.cs
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\obj\Debug\netstandard2.0\ItemMarker.csproj.CoreCompileInputs.cache
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\obj\Debug\netstandard2.0\ItemMarker.csproj.CopyComplete
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\obj\Debug\netstandard2.0\ItemMarker.dll
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\obj\Debug\netstandard2.0\ItemMarker.pdb
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\R2API.dll
+C:\Users\mries\Desktop\ItemMarker\ItemMarker\bin\Debug\netstandard2.0\MMHOOK_Assembly-CSharp.dll
