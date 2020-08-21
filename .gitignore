@@ -1,3 +1,5 @@
 .vscode/**
 .vs/**
 Libs/**
+ItemMarker/bin/**
+ItemMarker/obj/**
