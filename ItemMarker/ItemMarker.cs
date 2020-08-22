@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using BepInEx;
-using IL.RoR2;
-using R2API;
+﻿using BepInEx;
 using RoR2;
 using UnityEngine;
 
@@ -19,11 +15,11 @@ namespace ItemMarker
             bundle_ = AssetBundle.LoadFromMemory(Properties.Resources.itemmarker);
         }
 
-        private RoR2.GenericPickupController CreatePickup(On.RoR2.GenericPickupController.orig_CreatePickup orig, ref global::RoR2.GenericPickupController.CreatePickupInfo createPickupInfo)
+        private GenericPickupController CreatePickup(On.RoR2.GenericPickupController.orig_CreatePickup orig, ref GenericPickupController.CreatePickupInfo createPickupInfo)
         {
-            UnityEngine.GameObject particles = Instantiate((GameObject)bundle_.LoadAsset("beam"));
-            RoR2.PickupDef def = RoR2.PickupCatalog.GetPickupDef(createPickupInfo.pickupIndex);
-            RoR2.ItemDef idef = RoR2.ItemCatalog.GetItemDef(def.itemIndex);
+            GameObject particles = Instantiate((GameObject)bundle_.LoadAsset("beam"));
+            PickupDef def = PickupCatalog.GetPickupDef(createPickupInfo.pickupIndex);
+            ItemDef idef = ItemCatalog.GetItemDef(def.itemIndex);
             switch(idef.tier)
             {
                 case ItemTier.Tier1:
