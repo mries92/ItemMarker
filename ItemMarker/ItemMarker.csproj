@@ -29,6 +29,9 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>..\Libs\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\Libs\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

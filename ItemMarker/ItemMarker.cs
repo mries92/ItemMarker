@@ -1,10 +1,13 @@
 ﻿using BepInEx;
 using RoR2;
 using UnityEngine;
+using UnityEngine.Events;
 using R2API;
 using R2API.Utils;
 using System.Linq;
 using System.Xml;
+using System.Collections.ObjectModel;
+using RoR2.UI;
 
 namespace ItemMarker
 {
@@ -13,11 +16,11 @@ namespace ItemMarker
     public class ItemMarker : BaseUnityPlugin
     {
         AssetBundle bundle_;
-        void Awake()
+        void Awake()    
         {
             On.RoR2.GenericPickupController.CreatePickup += CreatePickup;
             On.RoR2.PickupPickerController.SetOptionsInternal += SetOptions;
-            On.RoR2.PickupPickerController.OnInteractionBegin += OnInteractionBegin;
+            On.RoR2.UI.PickupPickerPanel.SetPickupOptions += SetPickupOptions;
             bundle_ = AssetBundle.LoadFromMemory(Properties.Resources.itemmarker);
         }
 
@@ -27,24 +30,31 @@ namespace ItemMarker
             particles.transform.position = createPickupInfo.position;
             PickupDef def = PickupCatalog.GetPickupDef(createPickupInfo.pickupIndex);
             ItemDef idef = ItemCatalog.GetItemDef(def.itemIndex);
+            EquipmentDef edef = EquipmentCatalog.GetEquipmentDef(def.equipmentIndex);
             Color color = Color.white;
-            switch (idef.tier)
+            if(idef != null)
             {
-                case ItemTier.Tier2:
-                    color = Color.green;
-                    break;
-                case ItemTier.Tier3:
-                    color = Color.red;
-                    break;
-                case ItemTier.Boss:
-                    color = new Color(255, 236, 31);
-                    break;
-                case ItemTier.Lunar:
-                    color = Color.blue;
-                    break;
-                default:
-                    color = Color.cyan;
-                    break;
+                switch (idef.tier)
+                {
+                    case ItemTier.Tier2:
+                        color = Color.green;
+                        break;
+                    case ItemTier.Tier3:
+                        color = Color.red;
+                        break;
+                    case ItemTier.Boss:
+                        color = Color.yellow;
+                        break;
+                    case ItemTier.Lunar:
+                        color = Color.blue;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if(edef != null)
+            {
+                color = Color.magenta;
             }
             particles.GetComponent<MeshRenderer>().material.color = color;
 
@@ -64,30 +74,53 @@ namespace ItemMarker
             var tier3index = PickupCatalog.FindPickupIndex(ItemIndex.Clover);
             var bossindex = PickupCatalog.FindPickupIndex(ItemIndex.BeetleGland);
             var lunarindex = PickupCatalog.FindPickupIndex(ItemIndex.LunarDagger);
+            var equipmentindex = PickupCatalog.FindPickupIndex(EquipmentIndex.Fruit);
 
             Color color = Color.white;
             if (self.IsChoiceAvailable(tier2index))
                 color = Color.green;
-            if (self.IsChoiceAvailable(tier3index))
+            else if (self.IsChoiceAvailable(tier3index))
                 color = Color.red;
-            if (self.IsChoiceAvailable(bossindex))
-                color = new Color(255, 236, 31);
-            if (self.IsChoiceAvailable(lunarindex))
+            else if (self.IsChoiceAvailable(bossindex))
+                color = Color.yellow;
+            else if (self.IsChoiceAvailable(lunarindex))
                 color = Color.blue;
+            else if (self.IsChoiceAvailable(equipmentindex))
+                color = Color.magenta;
 
             particles.GetComponent<MeshRenderer>().material.color = color;
         }
 
-        public void OnInteractionBegin(On.RoR2.PickupPickerController.orig_OnInteractionBegin orig, global::RoR2.PickupPickerController self, global::RoR2.Interactor activator)
+        public void SetPickupOptions(On.RoR2.UI.PickupPickerPanel.orig_SetPickupOptions orig, RoR2.UI.PickupPickerPanel self, RoR2.PickupPickerController.Option[] options)
         {
-            // Get all the items in the menu
-            var options = self.GetFieldValue<PickupPickerController.Option[]>("options");
-            // Print the available options
-            foreach(var option in options)
+            orig(self, options);
+            var allocator = self.GetFieldValue<UIElementAllocator<MPButton>>("buttonAllocator");
+            ReadOnlyCollection<MPButton> buttons = allocator.elements;
+            TooltipProvider provider = new TooltipProvider();
+
+            int i = 0;
+            foreach(var button in buttons)
             {
-                UnityEngine.Debug.Log("Available Choice: " + PickupCatalog.GetPickupDef(option.pickupIndex).itemIndex);
+                TooltipContent content = new TooltipContent();
+                var def = PickupCatalog.GetPickupDef(options[i].pickupIndex);
+                var idef = ItemCatalog.GetItemDef(def.itemIndex);
+                var edef = EquipmentCatalog.GetEquipmentDef(def.equipmentIndex);
+                if(idef != null)
+                {
+                    content.titleColor = def.darkColor;
+                    content.titleToken = idef.nameToken;
+                    content.bodyToken = idef.descriptionToken;
+                }
+                else
+                {
+                    content.titleColor = def.darkColor;
+                    content.titleToken = edef.nameToken;
+                    content.bodyToken = edef.descriptionToken;
+                }
+                
+                button.gameObject.AddComponent<TooltipProvider>().SetContent(content);
+                i++;
             }
-            orig(self, activator);
         }
     }
 }
